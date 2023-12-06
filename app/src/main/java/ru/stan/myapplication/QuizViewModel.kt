@@ -1,6 +1,7 @@
 package ru.stan.myapplication
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.SavedStateHandle
@@ -24,8 +25,11 @@ class QuizViewModel(
     )
 
 
-    private var currentIndex: Int = 0
+    var currentIndex: Int
 
+
+        get() = savedStateHandle.get(CURRENT_INDEX_KEY) ?: 0
+        set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
 
     private var currentScore = 0
     private var currentAnswers = 0
@@ -40,7 +44,9 @@ class QuizViewModel(
         currentIndex = (currentIndex + 1) % questionBank.size
         if (currentIndex == 0) {
             resetScore()
+
         }
+
     }
 
     fun moveToBack() {
@@ -48,6 +54,7 @@ class QuizViewModel(
         if (currentIndex == 0) {
             resetScore()
         }
+
     }
 
     fun checkAnswer(userAnswer: Boolean, context: Context) {

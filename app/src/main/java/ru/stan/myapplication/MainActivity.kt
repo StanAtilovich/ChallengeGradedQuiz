@@ -2,6 +2,7 @@ package ru.stan.myapplication
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.stan.myapplication.databinding.ActivityMainBinding
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             quizViewModel.moveToBack()
             updateQuestion()
-
+            updateBackButtonVisibility()
         }
 
         updateQuestion()
@@ -60,9 +61,16 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionsTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionsTextResId)
+        updateBackButtonVisibility()
     }
 
-
+    private fun updateBackButtonVisibility() {
+        if (quizViewModel.currentIndex == 0) {
+            binding.backButton.visibility = View.INVISIBLE
+        } else {
+            binding.backButton.visibility = View.VISIBLE
+        }
+    }
 }
 
 
