@@ -1,15 +1,13 @@
 package ru.stan.myapplication
 
 import android.content.Context
-import android.view.View
 import android.widget.Toast
-import androidx.core.graphics.createBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import kotlin.math.roundToInt
 
-private const val TAG = "QuizViewModel"
 const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
+const val IS_CHAT_KEY = "IS_CHAT_KEY"
 
 class QuizViewModel(
     private val savedStateHandle: SavedStateHandle
@@ -23,6 +21,10 @@ class QuizViewModel(
         Questions(R.string.question_americas, true, null),
         Questions(R.string.question_asia, true, null)
     )
+
+    var isCheater: Boolean
+        get() = savedStateHandle.get(IS_CHAT_KEY) ?: false
+        set(value) = savedStateHandle.set(IS_CHAT_KEY,value)
 
 
     var currentIndex: Int
@@ -60,12 +62,13 @@ class QuizViewModel(
     fun checkAnswer(userAnswer: Boolean, context: Context) {
         val correctAnswer = currentQuestionAnswer
 
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
-        } else {
-            R.string.incorrect_toast
+        val messageResId = when{
+            isCheater -> R.string.judgment_toast
+            userAnswer == correctAnswer -> R.string.correct_toast
+            else -> R.string.incorrect_toast
         }
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show()
+
 
 
         questionBank[currentIndex].userAnswer = userAnswer
