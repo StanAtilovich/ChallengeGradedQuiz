@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding.cheatButton.setOnClickListener {
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-           // startActivity(intent)Challenge: Closing Loopholes for Cheaters
+            // startActivity(intent)Challenge: Closing Loopholes for Cheaters
             cheatLauncher.launch(intent)
         }
         binding.trueButton.setOnClickListener {
@@ -88,5 +88,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-

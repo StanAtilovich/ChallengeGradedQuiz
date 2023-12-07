@@ -4,14 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.stan.myapplication.databinding.ActivityCheatBinding
 
-const val EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
-private const val EXTRA_ANSWER_IS_TRUE = "com.bignerdranch.android.geoquiz.answer_is_true"
+const val EXTRA_ANSWER_SHOWN = "geoquiz.answer_shown"
+private const val EXTRA_ANSWER_IS_TRUE = "geoquiz.answer_is_true"
 
 class CheatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheatBinding
+    private val chatViewModel: ChatViewModel by viewModels()
     private var answerIsTrue = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +29,18 @@ class CheatActivity : AppCompatActivity() {
                 else -> R.string.false_button
             }
             binding.answerTextView.setText(answerText)
-            setAnserShowResult(true)
+            setAnserShowResult()
+            chatViewModel.answerWasClicked = true
+        }
+        if (chatViewModel.answerWasClicked) {
+            binding.answerTextView.setText(R.string.true_button)
+            setAnserShowResult()
         }
     }
 
-    private fun setAnserShowResult(isAnswerShown: Boolean) {
+    private fun setAnserShowResult() {
         val data = Intent().apply {
-            putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
+            putExtra(EXTRA_ANSWER_SHOWN, true)
         }
         setResult(Activity.RESULT_OK, data)
     }
