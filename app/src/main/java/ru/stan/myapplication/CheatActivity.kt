@@ -28,10 +28,12 @@ class CheatActivity : AppCompatActivity() {
                 answerIsTrue -> R.string.true_button
                 else -> R.string.false_button
             }
+
             binding.answerTextView.setText(answerText)
             setAnserShowResult()
             chatViewModel.answerWasClicked = true
         }
+
         if (chatViewModel.answerWasClicked) {
             binding.answerTextView.setText(R.string.true_button)
             setAnserShowResult()

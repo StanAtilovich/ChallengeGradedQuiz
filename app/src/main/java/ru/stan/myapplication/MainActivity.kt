@@ -31,35 +31,33 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Log.d(TAG, "Got a QuizViewModel : $quizViewModel")
+
         binding.cheatButton.setOnClickListener {
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-            // startActivity(intent)Challenge: Closing Loopholes for Cheaters
             cheatLauncher.launch(intent)
         }
+
         binding.trueButton.setOnClickListener {
             quizViewModel.checkAnswer(true, this)
-            binding.trueButton.isEnabled = false
-            binding.falseButton.isEnabled = false
+            buttonsAreGone()
         }
+
         binding.falseButton.setOnClickListener {
             quizViewModel.checkAnswer(false, this)
-            binding.trueButton.isEnabled = false
-            binding.falseButton.isEnabled = false
+            buttonsAreGone()
         }
 
         binding.nextButton.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
             quizViewModel.isCheater = false
-            binding.trueButton.isEnabled = true
-            binding.falseButton.isEnabled = true
-
+            buttonsAreVisible()
         }
+
         binding.questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
-
         }
 
         binding.backButton.setOnClickListener {
@@ -67,10 +65,7 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
             updateBackButtonVisibility()
         }
-
-
         updateQuestion()
-
     }
 
 
@@ -86,6 +81,16 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.backButton.visibility = View.VISIBLE
         }
+    }
+
+    private fun buttonsAreGone() {
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+    }
+
+    private fun buttonsAreVisible() {
+        binding.trueButton.isEnabled = true
+        binding.falseButton.isEnabled = true
     }
 
 }
