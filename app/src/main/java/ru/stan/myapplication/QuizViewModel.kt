@@ -1,7 +1,11 @@
 package ru.stan.myapplication
 
 import android.content.Context
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import kotlin.math.roundToInt
@@ -92,6 +96,5 @@ class QuizViewModel(
         currentScore = 0
         currentAnswers = 0
     }
-
 
 }

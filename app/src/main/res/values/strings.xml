@@ -18,4 +18,6 @@
     <string name="cheat_button">Cheat!</string>
     <string name="judgment_toast">Cheating is wrong.</string>
     <string name="back_activity">Назад</string>
+    <string name="api_level">api_level</string>
+    <string name="api_text">Уровень Api</string>
 </resources>

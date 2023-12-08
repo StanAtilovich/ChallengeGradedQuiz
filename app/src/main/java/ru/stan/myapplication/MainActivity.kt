@@ -1,11 +1,17 @@
 package ru.stan.myapplication
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ru.stan.myapplication.databinding.ActivityMainBinding
 
@@ -23,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
@@ -65,7 +72,15 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
             updateBackButtonVisibility()
         }
+
+        binding.buttonApiLevel.setOnClickListener {
+            apiLevel()
+        }
+
         updateQuestion()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            blurCheatButton()
+        }
     }
 
 
@@ -92,5 +107,24 @@ class MainActivity : AppCompatActivity() {
         binding.trueButton.isEnabled = true
         binding.falseButton.isEnabled = true
     }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun blurCheatButton() {
+        val effect = RenderEffect.createBlurEffect(
+            10.0f,
+            10.0f,
+            Shader.TileMode.CLAMP
+        )
+        binding.cheatButton.setRenderEffect(effect)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun apiLevel() {
+        val apiLevel = android.os.Build.VERSION.SDK_INT
+        val apiLevelMessage = "Уровень API телефона: $apiLevel"
+        Toast.makeText(this, apiLevelMessage, Toast.LENGTH_SHORT).show()
+        binding.levelTextView?.setText("Уровень API телефона: $apiLevel")
+    }
+
 
 }
