@@ -17,6 +17,8 @@ class QuizViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    var remainingTokens = 3
+
     private val questionBank = listOf(
         Questions(R.string.question_australia, true, null),
         Questions(R.string.question_oceans, true, null),
@@ -96,5 +98,4 @@ class QuizViewModel(
         currentScore = 0
         currentAnswers = 0
     }
-
 }

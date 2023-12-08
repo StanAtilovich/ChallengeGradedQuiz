@@ -40,6 +40,14 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Got a QuizViewModel : $quizViewModel")
 
         binding.cheatButton.setOnClickListener {
+            if (quizViewModel.remainingTokens > 0){
+                quizViewModel.remainingTokens --
+                updateTokenDisplay()
+            }
+            if (quizViewModel.remainingTokens == 0){
+                binding.cheatButton.isEnabled = false
+            }
+
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
             cheatLauncher.launch(intent)
@@ -76,10 +84,24 @@ class MainActivity : AppCompatActivity() {
         binding.buttonApiLevel.setOnClickListener {
             apiLevel()
         }
+        binding.levelTextView?.setOnClickListener {
+            apiLevel()
+        }
 
         updateQuestion()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             blurCheatButton()
+        }
+        if (quizViewModel.remainingTokens == 0){
+            binding.cheatButton.isEnabled = false
+        }
+        if (savedInstanceState != null){
+            binding.trueButton.isEnabled = savedInstanceState.getBoolean("trueButtonState")
+        }
+
+        if (savedInstanceState != null){
+            binding.falseButton.isEnabled = savedInstanceState.getBoolean("falseButtonState")
         }
     }
 
@@ -120,11 +142,13 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun apiLevel() {
-        val apiLevel = android.os.Build.VERSION.SDK_INT
+        val apiLevel = Build.VERSION.SDK_INT
         val apiLevelMessage = "Уровень API телефона: $apiLevel"
         Toast.makeText(this, apiLevelMessage, Toast.LENGTH_SHORT).show()
         binding.levelTextView?.setText("Уровень API телефона: $apiLevel")
     }
 
-
+    private fun updateTokenDisplay(){
+        binding.cheatButton.text = "Show Answer (${quizViewModel.remainingTokens} left)"
+    }
 }
