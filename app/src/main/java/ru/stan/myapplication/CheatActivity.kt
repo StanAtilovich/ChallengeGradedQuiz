@@ -38,6 +38,9 @@ class CheatActivity : AppCompatActivity() {
             binding.answerTextView.setText(R.string.true_button)
             setAnserShowResult()
         }
+        binding.backButton.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setAnserShowResult() {

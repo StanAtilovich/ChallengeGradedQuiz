@@ -20,4 +20,5 @@
     <string name="back_activity">Назад</string>
     <string name="api_level">api_level</string>
     <string name="api_text">Уровень Api</string>
+    <string name="back">Back</string>
 </resources>
