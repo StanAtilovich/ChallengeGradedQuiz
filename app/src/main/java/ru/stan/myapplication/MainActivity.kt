@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.nextButton.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
+            quizViewModel.isCheater = false
             binding.trueButton.isEnabled = true
             binding.falseButton.isEnabled = true
 
